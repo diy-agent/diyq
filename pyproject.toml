@@ -1,0 +1,17 @@
+[project]
+name = "quant"
+version = "0.1.0"
+description = "A lightweight quantitative trading system"
+requires-python = ">=3.12"
+dependencies = [
+    "akshare",
+    "pandas",
+    "loguru",
+    "tqdm",
+    "pyyaml",
+    "matplotlib",
+    "streamlit",
+    "pyarrow",
+    "fastparquet",
+    "plotly"
+]
