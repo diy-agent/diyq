@@ -50,4 +50,7 @@ streamlit run src/ui/app.py
 - `main.py`: 项目入口。
 
 ## 需求参考
-详细需求请参考 [requirements.md](requirements.md)。
+
+详细需求请参考 [docs/requirements.md](docs/requirements.md)。
+
+技术调研和参考链接 docs/research.md
