@@ -1,9 +1,25 @@
+# dir
 data/**/* filter=lfs diff=lfs merge=lfs -text
+
+# zip
 *.zip filter=lfs diff=lfs merge=lfs -text
+*.tar.gz filter=lfs diff=lfs merge=lfs -text
+
+# database
+*.parquet filter=lfs diff=lfs merge=lfs -text
+
+
+# media
 *.mp4 filter=lfs diff=lfs merge=lfs -text
 *.png filter=lfs diff=lfs merge=lfs -text
-*.tar.gz filter=lfs diff=lfs merge=lfs -text
-*.parquet filter=lfs diff=lfs merge=lfs -text
+
+
+# doc
 *.docx filter=lfs diff=lfs merge=lfs -text
 *.pdf filter=lfs diff=lfs merge=lfs -text
 *.xlsx filter=lfs diff=lfs merge=lfs -text
+
+
+# exe
+*.exe filter=lfs diff=lfs merge=lfs -text
+*.com filter=lfs diff=lfs merge=lfs -text
