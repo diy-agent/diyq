@@ -210,3 +210,7 @@ __marimo__/
 
 # macOS system files
 .DS_Store
+
+
+# nodejs
+node_modules/

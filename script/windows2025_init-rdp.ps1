@@ -2,85 +2,114 @@
 # AppLab 环境初始化脚本 (Windows Server)
 # 作者: Chen Peng
 # 日期: 2026-02-05
+# 版本: 2.0 (函数式重构)
 # ==============================
 
-# --- 前置检查：管理员权限 ---
-
-# 管理员权限检测
-if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Write-Host "错误：请以管理员身份运行此脚本！" -ForegroundColor Red
-    Read-Host "按任意键退出..."
-    exit 1
-}
-
-# --- 安装 mise 到安全目录 ---
-& {
-    Write-Host "📦 正在安装 mise..." -ForegroundColor Cyan
-    $miseDir = "C:\Tools\mise"
-    $null = New-Item -Path $miseDir -ItemType Directory -Force
-    winget install jdx.mise --location $miseDir --silent --accept-package-agreements --accept-source-agreements
-
-    # 添加 shims 到用户 PATH
-    $shimPath = "$env:LOCALAPPDATA\mise\shims"
-    $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
-    if (-not $userPath.Contains($shimPath)) {
-        $newPath = $userPath + ";" + $shimPath
-        [Environment]::SetEnvironmentVariable("Path", $newPath, "User")
-        Write-Host "✅ 已添加 mise shim 到用户 PATH" -ForegroundColor Green
-        # 注意：新 PATH 对当前会话无效，需重启终端或手动刷新
-    }
-}
+# 保证程序(包括外部程序)非0退出即脚本终止异常exit
+$ErrorActionPreference = 'Stop'
 
 
+# 确保 WinGet 链接目录在 PATH 中, WinGet只在第一次安装包后把自己的可执行文件路径添加到 PATH 中，但要开新Shell才生效，我们补一下
 
-## mise 环境初始化 -----------------------
+# --- 函数定义 ---
 
-# 重新安装 mise 到指定目录 ，默认路径有安全问题无法安装
-New-Item -Path "c:\Tools\mise" -ItemType Directory -Force
-winget install jdx.mise --location "c:\Tools\mise"
-
-# 读取当前用户的 PATH 变量
-$currentPath = [Environment]::GetEnvironmentVariable("Path", "User")
-# mise shim 路径
-$miseShimPath = "C:\Users\Administrator\AppData\Local\mise\shims"
-
-# 检查路径是否已存在，避免重复添加
-if (-not $currentPath.Contains($miseShimPath)) {
-    $newPath = $currentPath + ";" + $miseShimPath
-    [Environment]::SetEnvironmentVariable("Path", $newPath, "User")
-    Write-Host "mise shim 路径已添加到 PATH：$miseShimPath"
-} else {
-    Write-Host "mise shim 路径已存在于 PATH 中，无需重复添加"
-}
-
-
-# --- 部署 win-acme（官方 ZIP 方式，不依赖 dotnet tool, win-acme也没有winget包）---
-& {
-    $version = "2.2.9.1701"  # 请根据 https://github.com/win-acme/win-acme/releases 检查最新版
-    $installPath = "C:\Tools\win-acme"
-    $zipFile = "$env:TEMP\win-acme.zip"
-
-    Write-Host "⬇️ 正在下载 win-acme v$version..." -ForegroundColor Cyan
-    # 修复：移除 URL 中的多余空格
-    $url = "https://github.com/win-acme/win-acme/releases/download/v$version/win-acme.v$version.x64.trimmed.zip"
-
-    try {
-        Invoke-WebRequest -Uri $url -OutFile $zipFile -UseBasicParsing
-        $null = New-Item -ItemType Directory -Force -Path $installPath
-        Expand-Archive -Path $zipFile -DestinationPath $installPath -Force
-        Write-Host "✅ win-acme 已部署到 $installPath" -ForegroundColor Green
-    } catch {
-        Write-Error "❌ 下载或解压 win-acme 失败: $_"
+# 检查管理员权限，不满足则直接退出
+function _Check-IsAdmin {
+    if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+        Write-Host "错误：请以管理员身份运行此脚本！" -ForegroundColor Red
+        Read-Host "按任意键退出..."
         exit 1
     }
 }
 
+# 将目录添加到用户 PATH (如果不存在) - 内部函数
+function _Add-ToUserPath {
+    param(
+        [string]$PathToAdd
+    )
 
-mise use -g uv
+    $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+    if (-not ($userPath -split ';').Contains($PathToAdd)) {
+        $newPath = $userPath + ";" + $PathToAdd
+        [Environment]::SetEnvironmentVariable("Path", $newPath, "User")
+        Write-Host "✅ 已将 '$PathToAdd' 添加到用户 PATH。" -ForegroundColor Green
+        Write-Host "   注意：新的 PATH 对当前会话无效，需重启终端或手动刷新环境变量。" -ForegroundColor Yellow
 
 
-# 5. 其他
-winget install --id Google.Chrome --source winget --silent --accept-package-agreements --accept-source-agreements
-winget install --id Microsoft.VisualStudioCode --source winget --silent --accept-package-agreements --accept-source-agreements
+    } else {
+        Write-Host "ℹ️ 路径 '$PathToAdd' 已存在于用户 PATH 中，无需添加。" -ForegroundColor Gray
+    }
+}
 
 
+# 安装常用软件，没有在mise的
+function Install-WingetPkgs {
+    Write-Host "--- 💻 install Winget软件 ---" -ForegroundColor Cyan
+    
+    # winget install Google.Chrome              --silent --accept-source-agreements --accept-package-agreements
+    winget install Microsoft.VisualStudioCode --silent --accept-source-agreements --accept-package-agreements
+}
+
+
+# 安装和配置 mise
+function Install-Mise {
+    Write-Host "--- 📦 正在安装和配置 mise ---" -ForegroundColor Cyan
+    winget install jdx.mise  --silent --accept-package-agreements --accept-source-agreements
+    $miseDir = "c:\tools\mise"
+    # 添加 mise shims 到用户 PATH
+    _Add-ToUserPath -PathToAdd "$env:LOCALAPPDATA\mise\shims"
+    $env:Path += ";$env:LOCALAPPDATA\Microsoft\WinGet\Links"
+
+    
+    Write-Host "--- 📦 正在安装mise 相关包 ---" -ForegroundColor Cyan
+    mise use -g uv
+
+}
+
+# 部署 win-acme
+function Install-WinAcme {
+    Write-Host "--- ⬇️ 正在部署 win-acme ---" -ForegroundColor Cyan
+    $version = "2.2.9.1701"  # 请根据 https://github.com/win-acme/win-acme/releases 检查最新版
+    $installPath = "c:\tools\win-acme"
+    $zipFile = "$env:TEMP\win-acme.zip"
+    $url = "https://github.com/win-acme/win-acme/releases/download/v$version/win-acme.v$version.x64.pluggable.zip"
+
+    Write-Host "正在下载 win-acme v$version..."
+    Invoke-WebRequest -Uri $url -OutFile $zipFile -UseBasicParsing -ErrorAction Stop
+    
+    Write-Host "正在解压到 $installPath..."
+    if (-not (Test-Path -Path $installPath)) {
+        New-Item -ItemType Directory -Force -Path $installPath -ErrorAction Stop | Out-Null
+    }
+    Expand-Archive -Path $zipFile -DestinationPath $installPath -Force -ErrorAction Stop
+    
+    Write-Host "✅ win-acme 已成功部署到 $installPath" -ForegroundColor Green
+}
+
+# --- 主逻辑 ---
+function Main {
+    # 1. 检查管理员权限（不满足则直接退出）
+    _Check-IsAdmin
+
+    Write-Host "=================================" -ForegroundColor Yellow
+    Write-Host "  环境初始化开始" -ForegroundColor Yellow
+    Write-Host "=================================" -ForegroundColor Yellow
+
+    # 5. 安装其他常用软件
+    Install-WingetPkgs
+
+
+    # 2. 安装和配置 mise
+    Install-Mise
+
+    # 3. 部署 win-acme
+    Install-WinAcme
+
+    Write-Host "=================================" -ForegroundColor Green
+    Write-Host "  🎉 环境初始化完成！" -ForegroundColor Green
+    Write-Host "=================================" -ForegroundColor Green
+    Read-Host "按任意键退出..."
+}
+
+# --- 脚本执行入口 ---
+Main
