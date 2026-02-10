@@ -46,6 +46,7 @@ function _Add-ToUserPath {
 function Install-WingetPkgs {
     Write-Host "--- 💻 install Winget软件 ---" -ForegroundColor Cyan
     
+    winget install gsudo
     # winget install Google.Chrome              --silent --accept-source-agreements --accept-package-agreements
     winget install Microsoft.VisualStudioCode --silent --accept-source-agreements --accept-package-agreements
 }
@@ -114,10 +115,6 @@ function Install-ssh-server {
     Get-Service sshd | Select-Object Name, Status, StartType
 
     Write-Host "OpenSSH Server installation and configuration completed!" -ForegroundColor Yellow
-
-    echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDqmicFD7GsRtYp/hBgTyQNZCCGHHoZvse+NlTrp4EfT/yJds1nuUjGY5RCcQ+8lru6rc0RLE11+UBEtP0K3ObixX1O1n0fkAttUAosSklSpiGlM6Z+0mI61FixW+SVP1vKprBI6H2Tvc6dzmb4xnaKMfOcNmnGTYU3xnOH6N2o14HUj+SN8KDMZUtT82oJEuzdN6rYqm31TJ1+Hl8bPzWp8kYEP3vYfQAIwi/grPcmag/ELuRYtrZ5WUjXhfDxoloAkkPCOadEl3x6umGEVpIm1d+m+RmNFP4elgYIym8V0ljjVNoUufzO3hnpUuM226pL+MA9OagDAcnPDxpZR1IMAl14T8aBpm1nI5v6sMnjvMxDmCpMbxJWThzwBvmm1ClWAnE+ZJlCV6UPudlQ6f2KXiC10CkwtE/x/e5rPXbGadwmciPjNU4GEo+C3WAh0nHJ6iMLCnKCylL9IWHJ5CCxEt6trSYNeUQfiPjSKKeyGQBujZOKc4q4BCsyKOkqZrUU6S2LN6MukmLLq/m/MYyXuIsm7qPDMEtkLl1XULycJm8dx4TLEp8aQ3Cu6Hz5qiZw3GUdIrTnwJ+Qi8Tw2HNArlkqNrPW5RBLBwUl/acFKVtFzDsomODvZKE/NdMBWBR+GxooLQfsQItJFM+YwVY72QoQYc6Uy+yWPqVEZ8znPw==" >> C:\Users\Administrator\.ssh\authorized_keys
-
-
 
 }
 
