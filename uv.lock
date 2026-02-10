@@ -2074,7 +2074,6 @@ dependencies = [
     { name = "akshare" },
     { name = "curl-cffi" },
     { name = "fastparquet" },
-    { name = "jupytext" },
     { name = "loguru" },
     { name = "matplotlib" },
     { name = "pandas" },
@@ -2084,11 +2083,13 @@ dependencies = [
     { name = "pyyaml" },
     { name = "streamlit" },
     { name = "tqdm" },
+    { name = "xtquant" },
 ]
 
 [package.dev-dependencies]
 dev = [
     { name = "ipykernel" },
+    { name = "jupytext" },
     { name = "pip" },
 ]
 
@@ -2097,7 +2098,6 @@ requires-dist = [
     { name = "akshare", specifier = ">=1.18.1" },
     { name = "curl-cffi", specifier = "==0.13.0" },
     { name = "fastparquet" },
-    { name = "jupytext", specifier = ">=1.18.1" },
     { name = "loguru" },
     { name = "matplotlib" },
     { name = "pandas" },
@@ -2107,11 +2107,13 @@ requires-dist = [
     { name = "pyyaml" },
     { name = "streamlit" },
     { name = "tqdm" },
+    { name = "xtquant", specifier = ">=250516.1.1" },
 ]
 
 [package.metadata.requires-dev]
 dev = [
     { name = "ipykernel", specifier = ">=7.1.0" },
+    { name = "jupytext", specifier = ">=1.18.1" },
     { name = "pip", specifier = ">=25.3" },
 ]
 
@@ -2441,6 +2443,21 @@ source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple/" }
 sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/07/5a/377161c2d3538d1990d7af382c79f3b2372e880b65de21b01b1a2b78691e/xlrd-2.0.2.tar.gz", hash = "sha256:08b5e25de58f21ce71dc7db3b3b8106c1fa776f3024c54e45b45b374e89234c9", size = 100167, upload-time = "2025-06-14T08:46:39.039Z" }
 wheels = [
     { url = "https://pypi.tuna.tsinghua.edu.cn/packages/1a/62/c8d562e7766786ba6587d09c5a8ba9f718ed3fa8af7f4553e8f91c36f302/xlrd-2.0.2-py2.py3-none-any.whl", hash = "sha256:ea762c3d29f4cca48d82df517b6d89fbce4db3107f9d78713e48cd321d5c9aa9", size = 96555, upload-time = "2025-06-14T08:46:37.766Z" },
+]
+
+[[package]]
+name = "xtquant"
+version = "250516.1.1"
+source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple/" }
+dependencies = [
+    { name = "numpy" },
+    { name = "pandas" },
+    { name = "requests" },
+    { name = "tqdm" },
+]
+sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/74/51/73b6dcc51ae95cc82484956d80787adf98152b57b838586d4cae373e04c8/xtquant-250516.1.1.tar.gz", hash = "sha256:c243466c7af9c6c11074d1fd00f66445d5d105b70ab498e79a2c5bf7b00f3f4a", size = 34562730, upload-time = "2025-06-11T12:03:48.103Z" }
+wheels = [
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/f4/23/3c8aa2d1130aa735285fb7e18a44d67ab71ba1162e545bd488b20457d57b/xtquant-250516.1.1-py3-none-any.whl", hash = "sha256:f8461b0a295fa9b13ead33acca8675f7961fe1b4488a319b5549853142a89014", size = 34704183, upload-time = "2025-06-11T12:03:38.674Z" },
 ]
 
 [[package]]

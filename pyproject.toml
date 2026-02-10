@@ -4,22 +4,6 @@ version = "0.1.0"
 description = "A lightweight quantitative trading system"
 requires-python = ">=3.12"
 dependencies = [
-    "akshare>=1.18.1",
-    "pandas",
-    "loguru",
-    "tqdm",
-    "pyyaml",
-    "matplotlib",
-    "streamlit",
-    "pyarrow",
-    "fastparquet",
-    "plotly",
-    # bug: akshare依赖的0.14.0bug,改用低版本 https://github.com/lexiforest/curl_cffi/issues/679
-    "curl-cffi==0.13.0",
-    "pip>=25.3",
-    # miniqmt (xtquant) - 需要从券商获取安装包
-    # 注意：xtquant 不是标准PyPI包，需要从券商处获取安装
-    # "xtquant",  # 此行仅作注释用途，请勿取消注释
 ]
 
 [dependency-groups]
