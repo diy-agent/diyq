@@ -5,9 +5,6 @@
 自动备份原有配置，精准修改指定的 SSH 配置项，支持端口、密码登录、Root登录等核心配置
 #>
 
-
-
-
 # 管理员权限检测
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     Write-Host "错误：请以管理员身份运行此脚本！" -ForegroundColor Red
