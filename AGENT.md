@@ -1,14 +1,8 @@
-# Agent Guide for _quant Project
+# quant Project
 
-这份文档旨在帮助 AI Agent 快速理解项目上下文，以便更高效地协助开发。
-
-## 1. 项目概览
-本项目 (`_quant`) 是一个基于 **miniqmt ** 的量化交易系统，集成了全流程的量化功能。
-
-- **核心目标**: 提供稳定、灵活的量化策略开发、回测和实盘执行环境。
-- **主要特性**:
-    - 单数据源 (miniqmt)
-    - 策略回测引擎
-    - 实盘/模拟交易执行
-    - 风险管理
-    - jupyter 监控界面
+## 项目概览
+本项目是一个预测&研究系统, 通过金融、股票、新闻的脉略、事件研究，预测所关注内容的发展。
+- 数据源
+  - **xtquant** 迅投MiniQMT行情接口 `research\xtquant\xtdata\README.md`
+- python: 3.12
+  - 包管理器: uv

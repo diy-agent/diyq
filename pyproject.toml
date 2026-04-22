@@ -4,6 +4,11 @@ version = "0.1.0"
 description = "A lightweight quantitative trading system"
 requires-python = ">=3.12"
 dependencies = [
+    "ipywidgets>=8.1.8",
+    "matplotlib>=3.10.8",
+    "pandas>=3.0.2",
+#    "xtquant==250516.1.1",
+    "xtquant==241014.1.2",
 ]
 
 [dependency-groups]
