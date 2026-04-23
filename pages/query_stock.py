@@ -11,14 +11,15 @@ with app.setup:
 @app.cell
 def _():
     xtdata.connect()
-    xtdata.get_sector_list()
+    sector_list=xtdata.get_sector_list()
+    sector_list
     return
 
 
 @app.cell
 def _():
     # 创建多组筛选器  
-    categories = ["全部", "电子产品", "服装", "食品"]  
+    categories = ["全部", "电子产品", "服装", "食品"] 
     price_ranges = ["0-100", "100-500", "500-1000", "1000+"]  
     sort_options = ["综合", "价格↑", "价格↓", "销量"]  
 
