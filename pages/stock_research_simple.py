@@ -2,28 +2,48 @@
 
 # %% s单元格1
 
+"""
+Stock Research Notebook - 简化版 (无ipywidgets依赖)
+===================================================
+使用方法: 在 Jupyter/JupyterLab 或 Python 脚本中逐段运行
+
+依赖: pandas, matplotlib, xtquant
+"""
+# %% s单元格1
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import warnings
 from datetime import datetime, timedelta
-import xtquant.xtdata as xtdata
 
 warnings.filterwarnings('ignore')
 plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei']
 plt.rcParams['axes.unicode_minus'] = False
 
+# =============================================================================
+# CELL 0: 初始化
+# =============================================================================
+print("=" * 60)
+print("Cell 0: 初始化")
+print("=" * 60)
 
-xtdata.download_sector_data()
+
+import xtquant.xtdata as xtdata
+
+client = xtdata.connect()
+print(f"[OK] 已连接 MiniQMT")
+# 下载板块数据
+try:
+    xtdata.download_sector_data()
+    print("[OK] 板块数据已同步")
+except:
+    pass
 
 # 全局状态
 WATCHLIST = []          # [(code, name), ...]
 DOWNLOAD_STATUS = {}    # {code: {'downloaded': bool, 'bars': int}}
 KLINE_CACHE = {}        # {code: DataFrame}
 STOCK_REGISTRY = {}     # {code: name}
-
-xtdata.get_sector_list()
-
-# %%
 
 # 加载股票列表
 print("\n[加载股票列表...]")

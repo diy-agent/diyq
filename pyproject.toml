@@ -7,6 +7,13 @@ dependencies = [
     "ipywidgets>=8.1.8",
     "matplotlib>=3.10.8",
     "pandas>=3.0.2",
+    "numpy>=2.4.4",
+    "polars>=1.40.0",
+
+    "fastapi>=0.136.0",
+    "marimo>=0.23.2",
+    
+    # 不要用最新版, 当前测试环境的华鑫证券QMT 2.0.0.6只能用 xtquant@241014.1.2
 #    "xtquant==250516.1.1",
     "xtquant==241014.1.2",
 ]
@@ -36,6 +43,5 @@ package = false
 python-install-mirror = "https://registry.npmmirror.com/-/binary/python-build-standalone/"
 
 [[tool.uv.index]]
-url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
-[[tool.uv.index]]
 url = "https://mirrors.aliyun.com/pypi/simple/"
+# url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
