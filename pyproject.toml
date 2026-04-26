@@ -4,24 +4,16 @@ version = "0.1.0"
 description = "A lightweight quantitative trading system"
 requires-python = ">=3.12"
 dependencies = [
-    "ipywidgets>=8.1.8",
     "matplotlib>=3.10.8",
     "pandas>=3.0.2",
     "numpy>=2.4.4",
     "polars>=1.40.0",
     "pyarrow>=24.0.0", # perspective
 
-    "fastapi>=0.136.0",
-    "marimo>=0.23.2",
-
+    "nicegui>=3.11.1",
     # workspace 内部依赖
-    "panel>=1.8.10",
-    "watchfiles>=1.1.1",
-    "altair>=6.1.0",
-    "perspective-python>=4.4.1",
-
     # 不要用最新版, 当前测试环境的华鑫证券QMT 2.0.0.6只能用 xtquant@241014.1.2
-#    "xtquant==250516.1.1",
+    #    "xtquant==250516.1.1",
     "xtquant==241014.1.2",
 ]
 
