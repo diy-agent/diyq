@@ -1,22 +1,25 @@
-import aiofiles
 import asyncio
-from nicegui import background_tasks, ui
+from nicegui import ui, background_tasks
 
-results = {'answer': '?'}
+# 尝试导入 xtdata
+from xtquant import xtdata
+import asyncio  
+from nicegui import ui, background_tasks  
+  
+progress = ui.linear_progress().props('instant-feedback')  
+  
+async def download_sector_data():
+    print("xxxx")
+    xtdata.connect()
+    print("xxxx2")
+    xtdata.download_sector_data()
 
-async def compute() -> None:
-    await asyncio.sleep(1)
-    results['answer'] = 42
+def start_process():  
+    task = background_tasks.create(download_sector_data())  
+    with ui.column() as controls:  
+        ui.button('取消任务').on('click', lambda: task.cancel()) .on('click', controls.delete)  
 
-@background_tasks.await_on_shutdown
-async def backup() -> None:
-    await asyncio.sleep(1)
-    async with aiofiles.open('backup.json', 'w') as f:
-        await f.write(f'{results["answer"]}')
-    print('backup.json written', flush=True)
-
-ui.label().bind_text_from(results, 'answer', lambda x: f'answer: {x}')
-ui.button('Compute', on_click=lambda: background_tasks.create(compute()),)
-ui.button('Backup', on_click=lambda: background_tasks.create(backup()))
+with ui.row():
+    ui.button('开始处理', on_click=start_process)
 
 ui.run()
