@@ -1,0 +1,16 @@
+[project]
+name = "diyq-miniqmt"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=2.4.4",
+    "pandas>=3.0.2",
+    "polars>=1.40.0",
+    "pyarrow>=24.0.0", # perspective
+
+    # workspace 内部依赖
+    # 不要用最新版, 当前测试环境的华鑫证券QMT 2.0.0.6只能用 xtquant@241014.1.2
+    "xtquant==250516.1.1",
+]
