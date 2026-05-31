@@ -10,7 +10,7 @@ shopt -s globstar
 
 # Get the real path of the script directory
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$ROOT_DIR/sha_common.sh"
+source "$ROOT_DIR/sha.common.sh"
 
 # 全局命令不要进入到_c目录
 cd "$ROOT_DIR"
@@ -24,13 +24,13 @@ cd "$ROOT_DIR"
 
 sync() {
   files() {
-    _run ssh-keygen -y -f ~/.ssh/id_rsa > ~/.ssh/id_rsa.pub
+    run ssh-keygen -y -f ~/.ssh/id_rsa > ~/.ssh/id_rsa.pub
   }
 
   app() {
-    _run mise use -g git-lfs
+    run mise use -g git-lfs
     # Git LFS 会把自身的钩子脚本安装到你的用户级 Git 配置中（对应 ~/.gitconfig 文件），这是全局生效的
-    _run git lfs install
+    run git lfs install
   } 
 
   all() {
